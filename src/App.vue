@@ -1,24 +1,20 @@
 <template lang="pug">
 #app
-	section.section
-		nav.nav.has-shadow
-			.container
-				.field.has-addons
-					.control.is-expanded
-						input.input.is-large(
-							type="text",
-							placeholder="¿Qué canción buscas?",
-							v-model="searchQuery"
-						)
-					.control
-						a.button.is-info.is-large(v-on:click="search") Buscar
-					.control
-						a.button.is-danger.is-large &times;
-				p.help.is-info.has-text-right
-					small {{ searchMessage }}
-		.container.results
-			.columns
-				.column(v-for="t in tracks") {{ t.title }} - &#9733; {{ t.score }}
+	header
+		nav
+			input.input-search(
+				type="text",
+				placeholder="¿Qué anime quieres encontrar?",
+				v-model="searchQuery"
+			)
+			a.btn-info(v-on:click="search") Buscar
+			a.btn-danger &times;
+		section.info-search
+			small {{ searchMessage }}
+
+	section.result-search
+		div(v-for="t in tracks")
+			| {{ t.title }} - &star; {{ t.score }}
 </template>
 
 <script>
@@ -51,8 +47,36 @@ export default {
 </script>
 
 <style lang="stylus">
-@import './stylus/main.styl'
+header
+	nav
+		@apply flex p-1
 
-.results
-	margin-top 50px
+		.input-search
+			// w-8/12
+			@apply bg-white border border-gray-300 rounded rounded-r-none py-3 px-4 block appearance-none leading-normal w-full
+
+			&:focus
+				@apply outline-none
+
+		.btn-info
+			@apply bg-blue-500 text-white font-bold py-3 px-4 cursor-pointer
+
+			&:hover
+				@apply bg-blue-600
+
+		.btn-danger
+			@apply bg-red-500 text-white font-bold py-3 px-4 rounded rounded-l-none cursor-pointer
+
+			&:hover
+				@apply bg-red-600
+
+	.info-search
+		@apply p-0 pr-3 m-0 mt-1 flex justify-end text-gray-500
+
+@screen md
+	header
+		@apply w-10 / 12 m-auto
+
+	.result-search
+		@apply w-10 / 12 m-auto
 </style>
