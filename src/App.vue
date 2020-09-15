@@ -1,20 +1,51 @@
-<template>
-	<div id="app">
-		<img alt="Vue logo" src="./assets/logo.png" />
-		<!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
-		<h1>{{ msg }}</h1>
-	</div>
+<template lang="pug">
+#app
+	section.section
+		nav.nav.has-shadow
+			.container
+				.field.has-addons
+					.control.is-expanded
+						input.input.is-large(
+							type="text",
+							placeholder="¿Qué canción buscas?",
+							v-model="searchQuery"
+						)
+					.control
+						a.button.is-info.is-large(v-on:click="search") Buscar
+					.control
+						a.button.is-danger.is-large &times;
+				p.help.is-info.has-text-right
+					small {{ searchMessage }}
+		.container.results
+			.columns
+				.column(v-for="t in tracks") {{ t.name }} - {{ t.artist }}
 </template>
 
 <script>
 // import HelloWorld from "./components/HelloWorld.vue";
+const tracks = [
+	{ name: 'Muchacha', artist: 'Luis Alberto Spinetta' },
+	{ name: 'Lo siento', artist: 'Laura Pausini' },
+	{ name: 'Corre', artist: 'Jessy & Joy' },
+];
 
 export default {
-	name: "App",
+	name: 'App',
 	data() {
 		return {
-			msg: "Hola Vue!",
+			searchQuery: '',
+			tracks: [],
 		};
+	},
+	computed: {
+		searchMessage() {
+			return `Match: ${this.tracks.length}`;
+		},
+	},
+	methods: {
+		search() {
+			this.tracks = tracks;
+		},
 	},
 	components: {
 		// HelloWorld,
@@ -24,4 +55,6 @@ export default {
 
 <style lang="stylus">
 @import './stylus/main.styl'
+.results
+	margin-top 50px
 </style>
