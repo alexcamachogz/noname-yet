@@ -4,7 +4,7 @@
 		nav
 			input.input-search(
 				type="text",
-				placeholder="¿Qué anime quieres encontrar?",
+				placeholder="What anime do you want to watch?",
 				v-model="searchQuery"
 			)
 			a.btn-info(v-on:click="search") Buscar
@@ -35,6 +35,9 @@ export default {
 	},
 	methods: {
 		search() {
+			if (!this.searchQuery) {
+				return;
+			}
 			trackService.search(this.searchQuery).then((res) => {
 				this.tracks = res.results;
 			});
