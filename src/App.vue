@@ -18,22 +18,17 @@
 					small {{ searchMessage }}
 		.container.results
 			.columns
-				.column(v-for="t in tracks") {{ t.name }} - {{ t.artist }}
+				.column(v-for="t in tracks") {{ t.title }} - &#9733; {{ t.score }}
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld.vue";
-const tracks = [
-	{ name: 'Muchacha', artist: 'Luis Alberto Spinetta' },
-	{ name: 'Lo siento', artist: 'Laura Pausini' },
-	{ name: 'Corre', artist: 'Jessy & Joy' },
-];
+import trackService from "./services/track";
 
 export default {
-	name: 'App',
+	name: "App",
 	data() {
 		return {
-			searchQuery: '',
+			searchQuery: "",
 			tracks: [],
 		};
 	},
@@ -44,7 +39,9 @@ export default {
 	},
 	methods: {
 		search() {
-			this.tracks = tracks;
+			trackService.search(this.searchQuery).then((res) => {
+				this.tracks = res.results;
+			});
 		},
 	},
 	components: {
@@ -55,6 +52,7 @@ export default {
 
 <style lang="stylus">
 @import './stylus/main.styl'
+
 .results
 	margin-top 50px
 </style>
