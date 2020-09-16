@@ -1,6 +1,8 @@
 <template lang="pug">
 #app
-	header
+	ap-header
+
+	section.section-search
 		nav
 			input.input-search(
 				type="text",
@@ -15,18 +17,26 @@
 	section.result-search
 		div(v-for="t in tracks")
 			| {{ t.title }} - &star; {{ t.score }}
+
+	ap-footer
 </template>
 
 <script>
-import trackService from "./services/track";
+import trackService from './services/track';
+import ApFooter from './components/layout/Footer.vue';
+import ApHeader from './components/layout/Header.vue';
 
 export default {
-	name: "App",
+	name: 'App',
 	data() {
 		return {
-			searchQuery: "",
+			searchQuery: '',
 			tracks: [],
 		};
+	},
+	components: {
+		ApFooter,
+		ApHeader,
 	},
 	computed: {
 		searchMessage() {
@@ -43,19 +53,20 @@ export default {
 			});
 		},
 	},
-	components: {
-		// HelloWorld,
-	},
 };
 </script>
 
 <style lang="stylus">
-header
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap')
+body
+	margin 0
+	font-family 'Roboto', sans-serif
+
+.section-search
 	nav
-		@apply flex p-1
+		@apply flex p-1 px-3
 
 		.input-search
-			// w-8/12
 			@apply bg-white border border-gray-300 rounded rounded-r-none py-3 px-4 block appearance-none leading-normal w-full
 
 			&:focus
@@ -77,7 +88,7 @@ header
 		@apply p-0 pr-3 m-0 mt-1 flex justify-end text-gray-500
 
 @screen md
-	header
+	.section-search
 		@apply w-10 / 12 m-auto
 
 	.result-search
